@@ -104,7 +104,7 @@ export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
       const id = `${callbackId++}`;
       browser.on('up', service =>
         this.emit('discover', {
-          action: 'added',
+          action: 'resolved',
           service: bonjourToZeroConfService(service),
         }),
       );
