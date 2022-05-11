@@ -110,13 +110,15 @@ public class ZeroConfPlugin: CAPPlugin {
                 return
             }
             if let unwrappedService: NetService = service {
-                call.resolve(["action": actionStr, "service": jsonifyService(unwrappedService)])
+                self.notifyListeners("discover", data: ["action": actionStr, "service": jsonifyService(unwrappedService)])
             }
         }
 
         DispatchQueue.main.async {
             self.implementation.watch(type: type, domain: domain, callback: callback)
         }
+        
+        call.resolve();
     }
 
     @objc func unwatch(_ call: CAPPluginCall) {
