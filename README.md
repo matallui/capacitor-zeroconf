@@ -1,6 +1,6 @@
-# capacitor-zeroconf
+# capacitor-zeroconf-lt
 
-Capacitor ZeroConf plugin
+Capacitor ZeroConf plugin (based on capacitor-zeroconf)
 
 This plugin allows you to browse and publish ZeroConf/Bonjour/mDNS services from applications developed using Ionic's Capacitor.
 
@@ -13,14 +13,14 @@ The has been ported from [Cordova ZeroConf Plugin](https://github.com/becvert/co
 ## Install
 
 ```bash
-npm install capacitor-zeroconf
+npm install capacitor-zeroconf-lt
 npx cap sync
 ```
 
 or
 
 ```bash
-yarn add capacitor-zeroconf
+yarn add capacitor-zeroconf-lt
 yarn cap sync
 ```
 
@@ -152,3 +152,51 @@ close() => Promise<void>
 | **`domain`** | <code>string</code> |
 
 </docgen-api>
+
+### Example
+
+Below you can find an example of what a React component could look like:
+
+```jsx
+const MdnsService: React.FC<Props> = (props) => {
+  const options = { type: '_castor-display._tcp.', domain: 'local.' };
+
+  useEffect(() => {
+    let listener: any;
+
+    const onDiscover = (result: ZeroConfWatchResult) => {
+      console.log('mDNS listener result:', result);
+    };
+
+    (ZeroConf as any)
+      .addListener('discover', onDiscover)
+      .then((res: any) => (listener = res));
+
+    ZeroConf.watch(options)
+      .then((res: any) => console.log('mDNS success:', res))
+      .catch((err: any) => console.log('mDNS error:', err));
+
+    return () => {
+      if (listener) {
+        console.log('removing listener', listener);
+        if (listener.remove) {
+          console.log('... using remove()');
+          listener.remove();
+        } else {
+          (ZeroConf as any).removeListener(listener);
+        }
+      }
+      ZeroConf.unwatch(options)
+        .then(() => {
+          console.log('unwatch success');
+          // need to close for Android to rescan
+          // TODO: try fixing Android implementation
+          ZeroConf.close().then(() => console.log('close success'));
+        })
+        .catch((err: any) => console.log('unwatch error:', err));
+    };
+  }, []);
+
+  return <></>;
+};
+```
