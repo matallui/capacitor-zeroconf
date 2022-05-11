@@ -1,6 +1,6 @@
 {
-  "name": "capacitor-zeroconf",
-  "version": "1.0.1-alpha.1",
+  "name": "capacitor-zeroconf-lt",
+  "version": "1.0.3",
   "description": "Capacitor ZeroConf plugin",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -14,14 +14,14 @@
     "CapacitorZeroconf.podspec",
     "electron"
   ],
-  "author": "Marco Marche",
+  "author": "Luis Tanica",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/trik/capacitor-zeroconf.git"
+    "url": "git+https://github.com/matallui/capacitor-zeroconf.git"
   },
   "bugs": {
-    "url": "https://github.com/trik/capacitor-zeroconf/issues"
+    "url": "https://github.com/matallui/capacitor-zeroconf/issues"
   },
   "keywords": [
     "capacitor",
