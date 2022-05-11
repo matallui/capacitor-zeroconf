@@ -120,9 +120,7 @@ public class ZeroConfPlugin extends Plugin {
                                 JSObject status = new JSObject();
                                 status.put("action", action);
                                 status.put("service", jsonifyService(service));
-
-                                call.setKeepAlive(true);
-                                call.resolve(status);
+                                notifyListeners("discover", status);
                             }
                         );
                     } catch (IOException | RuntimeException e) {
@@ -131,7 +129,6 @@ public class ZeroConfPlugin extends Plugin {
                 }
             );
 
-        call.setKeepAlive(true);
         call.resolve();
     }
 
