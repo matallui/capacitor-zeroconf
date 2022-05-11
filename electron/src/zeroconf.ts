@@ -30,40 +30,22 @@ const bonjourToZeroConfService = (service: RemoteService): ZeroConfService => ({
   txtRecord: service.txt,
 });
 
-type EvtListener = (...args: any[]) => void;
-let listenerId = 0;
-
 export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
   private _bonjour: Bonjour;
   private _services: Service[] = [];
   private _browsers: {
     [key: string]: { request: ZeroConfWatchRequest; browser: Browser };
   } = {};
-  private listenersMap = new Map<number, EvtListener>();
 
   constructor() {
     super();
     this._bonjour = bonjour();
   }
 
-  addListener(
-    eventName: string | symbol,
-    listener: (...args: any[]) => void,
-  ): any {
-    super.addListener(eventName, listener);
-    const id = listenerId++;
-    this.listenersMap.set(id, listener);
-    return {
-      remove: () => {
-        const l = this.listenersMap.get(id);
-        this.removeListener(eventName, l);
-      },
-    };
-  }
-
   getHostname(): Promise<{ hostname: string }> {
     return Promise.resolve({ hostname: hostname() });
   }
+
   register(request: ZeroConfRegisterRequest): Promise<void> {
     const { name, type, domain, port, props } = request;
     const service = this._bonjour.publish({
@@ -77,6 +59,7 @@ export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
     service.start();
     return Promise.resolve();
   }
+
   unregister(request: ZeroConfUnregisterRequest): Promise<void> {
     return new Promise(resolve => {
       const serviceIdx = this._services.findIndex(
@@ -97,11 +80,13 @@ export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
       }
     });
   }
+
   stop(): Promise<void> {
     return new Promise(resolve => {
       this._bonjour.unpublishAll(() => resolve());
     });
   }
+
   async watch(
     request: ZeroConfWatchRequest,
     callback?: ZeroConfWatchCallback,
@@ -140,6 +125,7 @@ export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
       resolve(id);
     });
   }
+
   unwatch(request: ZeroConfUnwatchRequest): Promise<void> {
     return new Promise<void>(resolve => {
       const browserId = Object.keys(this._browsers).find(id => {
@@ -154,6 +140,7 @@ export class ZeroConf extends EventEmitter implements ZeroConfPlugin {
       resolve();
     });
   }
+
   close(): Promise<void> {
     return Promise.resolve();
   }

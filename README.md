@@ -28,7 +28,6 @@ yarn cap sync
 
 <docgen-index>
 
-* [`addListener(...)`](#addlistener)
 * [`getHostname()`](#gethostname)
 * [`register(...)`](#register)
 * [`unregister(...)`](#unregister)
@@ -42,22 +41,6 @@ yarn cap sync
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### addListener(...)
-
-```typescript
-addListener(eventName: 'discover', listenerFunc: (result: ZeroConfWatchResult) => void) => PluginListenerHandle
-```
-
-| Param              | Type                                                  |
-| ------------------ | ----------------------------------------------------- |
-| **`eventName`**    | <code>"discover"</code>                               |
-| **`listenerFunc`** | <code>(result: ZeroConfWatchResult) =&gt; void</code> |
-
-**Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
-
---------------------
-
 
 ### getHostname()
 
@@ -144,13 +127,6 @@ close() => Promise<void>
 
 
 ### Interfaces
-
-
-#### PluginListenerHandle
-
-| Prop         | Type                                      |
-| ------------ | ----------------------------------------- |
-| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
 
 
 #### ZeroConfRegisterRequest
